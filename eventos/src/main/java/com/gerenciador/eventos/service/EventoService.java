@@ -44,4 +44,25 @@ public class EventoService {
                                         e.getData(), e.getImagem(), e.getAdministrador().getNome()))
                 .collect(Collectors.toList());
     }
+    
+    public EventoDTO atualizar(Long id, EventoCadastroDTO dto) {
+    	Evento evento = eventoRepository.findById(id)
+    			.orElseThrow(( )-> new RuntimeException("Evento não encontrado."));
+    	
+    	evento.setData(dto.getData());
+    	evento.setLocalizacao(dto.getLocalizacao());
+    	evento.setTitulo(dto.getTitulo());
+    	evento.setImagem(dto.getImagem());
+    	
+    	Evento atualizado = eventoRepository.save(evento);
+    	return new EventoDTO(atualizado.getId(), atualizado.getTitulo(), atualizado.getLocalizacao(),
+    			atualizado.getData(), atualizado.getImagem(), atualizado.getAdministrador().getNome());
+    }
+    
+    public void excluir(Long id) {
+    	if(!eventoRepository.existsById(id)) {
+    		throw new RuntimeException("Evento não encontrado.");
+    	}
+    	eventoRepository.deleteById(id);
+    }
 }
