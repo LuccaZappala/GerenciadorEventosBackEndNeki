@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gerenciador.eventos.dto.AdministradorCadastroDTO;
 import com.gerenciador.eventos.dto.AdministradorDTO;
+import com.gerenciador.eventos.dto.LoginDTO;
 import com.gerenciador.eventos.service.AdministradorService;
 
 @RestController
@@ -19,9 +20,15 @@ public class AdministradorController {
 	@Autowired
 	private AdministradorService service;
 	
-	@PostMapping
+	@PostMapping("/cadastrar")
 	public ResponseEntity<AdministradorDTO> cadastrar(@RequestBody AdministradorCadastroDTO dto) {
 		return ResponseEntity.ok(service.cadastrar(dto));
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<AdministradorDTO> login(@RequestBody LoginDTO dto) {
+		AdministradorDTO logado = service.login(dto.getEmail(), dto.getSenha());
+		return ResponseEntity.ok(logado);
 	}
 
 }

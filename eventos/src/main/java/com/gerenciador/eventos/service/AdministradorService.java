@@ -32,5 +32,16 @@ public class AdministradorService {
 		
 		return new AdministradorDTO(salvo.getId(), salvo.getNome(), salvo.getEmail());
 	}
+	
+	public AdministradorDTO login(String email, String senha) {
+		Administrador admin = repository.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("E-mail não cadastrado."));
+		
+		if (passwordEncoder.matches(senha, admin.getSenha())){
+			return new AdministradorDTO(admin.getId(), admin.getNome(), admin.getEmail());
+		}else {
+			throw new RuntimeException("Senha inválida.");
+		}
+	}
 
 }
