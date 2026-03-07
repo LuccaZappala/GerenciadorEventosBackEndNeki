@@ -35,13 +35,13 @@ public class EventoService {
         Evento salvo = eventoRepository.save(evento);
 
         return new EventoDTO(salvo.getId(), salvo.getTitulo(), salvo.getLocalizacao(), 
-                             salvo.getData(), salvo.getImagem(), admin.getNome());
+                             salvo.getData(), salvo.getImagem(), admin.getNome(), admin.getId());
     }
 
     public List<EventoDTO> listarPorAdmin(Long adminId) {
         return eventoRepository.findByAdministradorId(adminId).stream()
                 .map(e -> new EventoDTO(e.getId(), e.getTitulo(), e.getLocalizacao(), 
-                                        e.getData(), e.getImagem(), e.getAdministrador().getNome()))
+                                        e.getData(), e.getImagem(), e.getAdministrador().getNome(), e.getAdministrador().getId()))
                 .collect(Collectors.toList());
     }
     
@@ -56,7 +56,7 @@ public class EventoService {
     	
     	Evento atualizado = eventoRepository.save(evento);
     	return new EventoDTO(atualizado.getId(), atualizado.getTitulo(), atualizado.getLocalizacao(),
-    			atualizado.getData(), atualizado.getImagem(), atualizado.getAdministrador().getNome());
+    			atualizado.getData(), atualizado.getImagem(), atualizado.getAdministrador().getNome(), atualizado.getAdministrador().getId());
     }
     
     public void excluir(Long id) {

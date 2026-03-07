@@ -38,9 +38,12 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private void autenticarCliente(String token) {
         Long idAdmin = tokenService.getIdAdministrador(token);
         
-        UsernamePasswordAuthenticationToken authentication = 
+        if (idAdmin != null) {
+            UsernamePasswordAuthenticationToken authentication = 
                 new UsernamePasswordAuthenticationToken(idAdmin, null, Collections.emptyList());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
     
     private String recuperarToken(HttpServletRequest request) {
